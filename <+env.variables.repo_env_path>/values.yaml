@@ -1,0 +1,2 @@
+image: myrepo/harness-lab:test
+db: test
