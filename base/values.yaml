@@ -1,0 +1,9 @@
+image: myrepo/harness-lab:1.0
+replicas: 2
+resources:
+  requests:
+    cpu: "250m"
+    memory: "512Mi"
+  limits:
+    cpu: "500m"
+    memory: "1Gi"

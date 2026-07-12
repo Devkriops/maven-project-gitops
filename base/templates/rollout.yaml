@@ -1,0 +1,42 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Rollout
+metadata:
+  name: harness-lab
+  labels:
+    app: harness-lab
+spec:
+  replicas: {{ .Values.replicas }}
+  selector:
+    matchLabels:
+      app: harness-lab
+  template:
+    metadata:
+      labels:
+        app: harness-lab
+    spec:
+      containers:
+        - name: harness-lab
+          image: {{ .Values.image }}
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8080
+          resources:
+{{ toYaml .Values.resources | indent 12 }}
+          readinessProbe:
+            httpGet:
+              path: /hello
+              port: 8080
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /hello
+              port: 8080
+            initialDelaySeconds: 15
+            periodSeconds: 20
+  strategy:
+    canary:
+      steps:
+        - setWeight: 50
+        - pause: {}
+        - setWeight: 100

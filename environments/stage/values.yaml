@@ -1,0 +1,2 @@
+image: myrepo/harness-lab:1.4.0-rc1
+replicas: 2
